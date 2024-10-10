@@ -15,22 +15,22 @@ if __name__ == "__main__" :
 
     logger.addHandler(file_handler)
 
-    logger.info("test")
+    logger.info("==================Monitoring Start==================")
 
     # 접속 정보 (DB에서 끌고오는걸로 변경 예정)
-    server_ip = ""
+    server_ip = "10.0.2.15"
     server_port = ""
     server_pwd = ""
     db_url = ""
     
     # 원격제어 테스트 시 주석처리
-    # api = Api(logger)
+    api = Api(logger)
     
-    # result = api.get("/deviceList")
+    result = api.get("/deviceList")
 
-    # client = api.connect(f"{server_ip}::{server_port}", password=server_pwd)
+    client = api.connect(f"{server_ip}::{server_port}", password=server_pwd)
 
-    # client.captureScreen("test_screenshot.png")
+    client.captureScreen("test_screenshot.png")
 
-    # # 클라이언트 연결 종료
-    # client.disconnect()
+    # 클라이언트 연결 종료
+    client.disconnect()
