@@ -1,45 +1,33 @@
 import socket
-import subprocess
-import pyautogui
-import io
-from PIL import Image
+import cv2
+import numpy
 
-def capture_screen():
-    screenshot = pyautogui.screenshot()
-    img_bytes = io.BytesIO()
-    screenshot.save(img_bytes, format='JPEG')
-    return img_bytes.getvalue()
+#socket 수신 버퍼를 읽어서 반환하는 함수
+def recvall(sock, count):
+    buf = b''
+    while count:
+        newbuf = sock.recv(count)
+        if not newbuf: return None
+        buf += newbuf
+        count -= len(newbuf)
+    return buf
 
-def start_server(host='0.0.0.0', port=9999):
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((host, port))
-    server_socket.listen(5)
-    print(f"[*] Listening on {host}:{port}")
+#수신에 사용될 내 ip와 내 port번호
+TCP_IP = 'localhost'
+TCP_PORT = 5001
 
-    while True:
-        client_socket, addr = server_socket.accept()
-        print(f"[*] Accepted connection from {addr}")
+#TCP소켓 열고 수신 대기
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((TCP_IP, TCP_PORT))
+s.listen(True)
+conn, addr = s.accept()
 
-        while True:
-            try:
-                command = client_socket.recv(1024).decode()
-                if command.lower() == 'exit':
-                    print("[*] Connection closed")
-                    break
-                
-                if command.lower() == 'screenshot':
-                    # 화면 캡처 요청
-                    img_data = capture_screen()
-                    client_socket.sendall(b'IMAGE ' + len(img_data).to_bytes(4, 'little') + img_data)
-                else:
-                    # Execute the command and get the output
-                    output = subprocess.check_output(command, shell=True, stderr=subprocess.STDOUT)
-                    client_socket.send(output)
-            except Exception as e:
-                print(f"Error: {e}")
-                client_socket.send(str(e).encode())
-
-        client_socket.close()
-
-if __name__ == "__main__":
-    start_server()
+#String형의 이미지를 수신받아서 이미지로 변환 하고 화면에 출력
+length = recvall(conn,16) #길이 16의 데이터를 먼저 수신하는 것은 여기에 이미지의 길이를 먼저 받아서 이미지를 받을 때 편리하려고 하는 것이다.
+stringData = recvall(conn, int(length))
+data = numpy.fromstring(stringData, dtype='uint8')
+s.close()
+decimg=cv2.imdecode(data,1)
+cv2.imshow('SERVER',decimg)
+cv2.waitKey(0)
+cv2.destroyAllWindows() 
