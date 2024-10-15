@@ -3,7 +3,7 @@ import cv2
 import numpy
 
 # 서버에서 클라이언트로 이미지를 전송하는 코드
-TCP_IP = 'localhost'
+TCP_IP = '0.0.0.0'
 TCP_PORT = 5001
 
 # TCP 소켓 열고 클라이언트 연결 대기
