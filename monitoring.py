@@ -1,6 +1,8 @@
 from vncdotool import api
 import logging
 import lib.api as Api
+from lib.detection import Detection
+import cv2
 
 if __name__ == "__main__" :
     
@@ -24,13 +26,10 @@ if __name__ == "__main__" :
     db_url = ""
     
     # 원격제어 테스트 시 주석처리
-    api = Api(logger)
+    # api = Api(logger)
     
-    result = api.get("/deviceList")
+    # result = api.get("/deviceList")
 
-    client = api.connect(f"{server_ip}::{server_port}", password=server_pwd)
-
-    client.captureScreen("test_screenshot.png")
-
-    # 클라이언트 연결 종료
-    client.disconnect()
+    img = cv2.imread('vision_test.png', cv2.IMREAD_ANYCOLOR)
+    dect = Detection(logger)
+    dect.yn_detection(img)
