@@ -22,8 +22,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         
         # 화면 캡처 및 cv2로 변경 (RGB -> BGR)
         screenshot = pyautogui.screenshot()
-        image = np.array(screenshot)
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        img = np.array(screenshot)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
         # 이미지를 바이너리 형태로 변환 (인코딩)
         encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 90]
