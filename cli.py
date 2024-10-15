@@ -1,6 +1,6 @@
 import socket
 import cv2
-import numpy
+import numpy as np
 
 # socket 수신 버퍼를 읽어서 반환하는 함수
 def recvall(sock, count):
@@ -14,7 +14,7 @@ def recvall(sock, count):
     return buf
 
 # 서버에 연결할 IP와 포트
-TCP_IP = 'localhost'
+TCP_IP = '128.1.1.91'
 TCP_PORT = 5001
 
 # TCP 소켓 준비 후 서버에 연결
@@ -29,7 +29,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         # 받은 길이 정보를 기반으로 이미지 데이터 수신
         stringData = recvall(sock, int(length))
         if stringData:
-            data = numpy.frombuffer(stringData, dtype='uint8')
+            data = np.frombuffer(stringData, dtype='uint8')
             
             # 수신한 데이터를 이미지로 디코딩 후 출력
             decimg = cv2.imdecode(data, 1)
