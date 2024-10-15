@@ -2,10 +2,20 @@ import socket
 import cv2
 import numpy as np
 import pyautogui
+from threading import Thread
 
 # 서버에서 클라이언트로 이미지를 전송하는 코드
 TCP_IP = '0.0.0.0'
 TCP_PORT = 5001
+
+def mouse_handler(socket) :
+    while True:
+        try:
+            data = socket.recv(1024).decode('utf-8')
+            if data is not None :
+                print(data)
+        except :
+            break
 
 # TCP 소켓 열고 클라이언트 연결 대기
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -13,12 +23,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.listen(True)
     print("Waiting for connection...")
     
+    mouse_handler_thread = Thread(mouse_handler(s))
+    mouse_handler_thread.start()
+    
     conn, addr = s.accept()
     with conn:
         print(f"Connected to: {addr}")
         
         while True:
-            print("1")
             screenshot = pyautogui.screenshot()
             frame = np.array(screenshot)
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
