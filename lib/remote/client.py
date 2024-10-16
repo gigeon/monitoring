@@ -17,20 +17,18 @@ def recvall(sock, count):
 def mouse_handling(event, x, y, flags, param):
     if event == cv2.EVENT_MOUSEMOVE:
         print(x,"==", y)
-        param.send(("1" + "-" + str(x) + "-" + str(y)).encode('utf-8'))
+        param.send(("51" + "-" + str(x) + "-" + str(y)).encode('utf-8'))
     elif event == cv2.EVENT_LBUTTONDBLCLK:
         print("left",x,"==", y)
-        param.send("2".encode('utf-8'))
+        param.send("52".encode('utf-8'))
     elif event == cv2.EVENT_RBUTTONDBLCLK:
         print("right",x,"==", y)
-        param.send("3".encode('utf-8'))
+        param.send("53".encode('utf-8'))
         
 # 서버에 연결할 IP와 포트
-TCP_IP = '128.1.1.91'
-# TCP_IP = 'localhost'
+# TCP_IP = '128.1.1.91'
+TCP_IP = 'localhost'
 TCP_PORT = 5001
-
-
 
 # TCP 소켓 준비 후 서버에 연결
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -38,7 +36,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     
     cv2.namedWindow('CLIENT')
     cv2.setMouseCallback('CLIENT', mouse_handling, param=sock)
-
+    
     while True:
         # 서버에서 전송한 이미지 크기 정보 수신
         length = recvall(sock, 16)
@@ -54,8 +52,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 decimg = cv2.imdecode(data, 1)
                 cv2.imshow('CLIENT', decimg)
                 
-                if cv2.waitKey(1) == 27 :
+                key = cv2.waitKey(1)
+                if key > 0 :
+                    print(key)
+                    sock.send(("4" + str(key)).encode('utf-8'))
+                
+                if key == 27 :
                     break
+                
             else:
                 print("Failed to receive image data.")
                 break

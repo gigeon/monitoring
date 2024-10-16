@@ -8,18 +8,21 @@ from threading import Thread
 TCP_IP = '0.0.0.0'
 TCP_PORT = 5001
 
-def mouse_handler(socket) :
+def handler(socket) :
     while True:
         try:
             data = socket.recv(1024).decode('utf-8')
             if data is not None :
-                if data[0] == '1' :
-                    result = data.split('-')
-                    pyautogui.moveTo(int(result[1]),int(result[2]))
-                if data[0] == '2' :
-                    pyautogui.leftClick()
-                elif data[0] == '3' :
-                    pyautogui.rightClick()
+                if data[0] == '5':
+                        if data[1] == '1' :
+                            result = data.split('-')
+                            pyautogui.moveTo(int(result[1]),int(result[2]))
+                        if data[1] == '2' :
+                            pyautogui.leftClick()
+                        elif data[1] == '3' :
+                            pyautogui.rightClick()
+                elif data[0] == '4':
+                    pyautogui.press(chr(int(data[1:])))
         except :
             break
 
@@ -33,8 +36,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     
     with conn:
         print(f"Connected to: {addr}")
-        mouse_handler_thread = Thread(target=mouse_handler, args=(conn,))
-        mouse_handler_thread.start()
+        handler_thread = Thread(target=handler, args=(conn,))
+        handler_thread.start()
         while True:
             screenshot = pyautogui.screenshot()
             frame = np.array(screenshot)
