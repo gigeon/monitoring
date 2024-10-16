@@ -26,8 +26,8 @@ def mouse_handling(event, x, y, flags, param):
         param.send("3".encode('utf-8'))
         
 # 서버에 연결할 IP와 포트
-# TCP_IP = '128.1.1.91'
-TCP_IP = 'localhost'
+TCP_IP = '128.1.1.91'
+# TCP_IP = 'localhost'
 TCP_PORT = 5001
 
 
