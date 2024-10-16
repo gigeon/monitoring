@@ -13,7 +13,13 @@ def mouse_handler(socket) :
         try:
             data = socket.recv(1024).decode('utf-8')
             if data is not None :
-                print(data)
+                if data[0] == '1' :
+                    result = data.split('-')
+                    pyautogui.moveTo(int(result[1]),int(result[2]))
+                if data[0] == '2' :
+                    pyautogui.leftClick()
+                elif data[0] == '3' :
+                    pyautogui.rightClick()
         except :
             break
 
@@ -23,13 +29,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.listen(True)
     print("Waiting for connection...")
     
-    mouse_handler_thread = Thread(mouse_handler(s))
-    mouse_handler_thread.start()
-    
     conn, addr = s.accept()
+    
     with conn:
         print(f"Connected to: {addr}")
-        
+        mouse_handler_thread = Thread(target=mouse_handler, args=(conn,))
+        mouse_handler_thread.start()
         while True:
             screenshot = pyautogui.screenshot()
             frame = np.array(screenshot)
