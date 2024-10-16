@@ -18,7 +18,7 @@ def handler(socket) :
                             result = data.split('-')
                             pyautogui.moveTo(int(result[1]),int(result[2]))
                         if data[1] == '2' :
-                            pyautogui.leftClick()
+                            pyautogui.doubleClick()
                         elif data[1] == '3' :
                             pyautogui.rightClick()
                 elif data[0] == '4':

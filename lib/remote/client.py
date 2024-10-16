@@ -1,6 +1,7 @@
 import socket
 import cv2
 import numpy as np
+import time
 
 # socket 수신 버퍼를 읽어서 반환하는 함수
 def recvall(sock, count):
@@ -16,18 +17,15 @@ def recvall(sock, count):
 # 마우스 핸들링
 def mouse_handling(event, x, y, flags, param):
     if event == cv2.EVENT_MOUSEMOVE:
-        print(x,"==", y)
         param.send(("51" + "-" + str(x) + "-" + str(y)).encode('utf-8'))
     elif event == cv2.EVENT_LBUTTONDBLCLK:
-        print("left",x,"==", y)
         param.send("52".encode('utf-8'))
     elif event == cv2.EVENT_RBUTTONDBLCLK:
-        print("right",x,"==", y)
         param.send("53".encode('utf-8'))
         
 # 서버에 연결할 IP와 포트
-# TCP_IP = '128.1.1.91'
-TCP_IP = 'localhost'
+TCP_IP = '128.1.1.91'
+# TCP_IP = 'localhost'
 TCP_PORT = 5001
 
 # TCP 소켓 준비 후 서버에 연결
@@ -59,7 +57,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 
                 if key == 27 :
                     break
-                
+                time.sleep(0.1)
             else:
                 print("Failed to receive image data.")
                 break
