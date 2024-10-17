@@ -25,20 +25,20 @@ def handler(socket) :
                             pyautogui.doubleClick(button='right')
                         elif data[1] == '4' :
                             result = data.split('-')
-                            pyautogui.drag(round(float(result[1])), round(float(result[2])))
+                            pyautogui.mouseDown()
                         elif data[1] == '5' :
-                            pyautogui.click()
+                            pyautogui.mouseUp()
                         elif data[1] == '6' :
                             result = data.split('-')
-                            pyautogui.drag(round(float(result[1])), round(float(result[2])), button='right')
+                            pyautogui.dragTo(round(float(result[1])), round(float(result[2])), button='right')
                         elif data[1] == '7' :
                             pyautogui.click(button='right')
                         elif data[1] == '8' :
                             result = data.split(',')
-                            if result[1] > 0 :
-                                pyautogui.scroll(100)
+                            if int(result[1]) > 0 :
+                                pyautogui.scroll(1)
                             else :
-                                pyautogui.scroll(-100)
+                                pyautogui.scroll(-1)
                 elif data[0] == '2':
                     pyautogui.press(chr(int(data[1:])))
         except :
