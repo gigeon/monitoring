@@ -27,10 +27,10 @@ def handler(socket) :
                             result = data.split('-')
                             pyautogui.mouseDown()
                         elif data[1] == '5' :
-                            pyautogui.mouseUp()
+                            pyautogui.click()
                         elif data[1] == '6' :
                             result = data.split('-')
-                            pyautogui.dragTo(round(float(result[1])), round(float(result[2])), button='right')
+                            pyautogui.mouseDown(button='right')
                         elif data[1] == '7' :
                             pyautogui.click(button='right')
                         elif data[1] == '8' :
