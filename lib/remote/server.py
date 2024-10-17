@@ -52,10 +52,12 @@ def handler(socket) :
                         pyautogui.press('right')
                     elif data[1:] == "8" :
                         pyautogui.press('backspace')
+                    elif data[1:] == "9" :
+                        pyautogui.press('tab')
                     else:
                         pyautogui.press(chr(int(data[1:])))
         except :
-            break
+            ...
 
 # TCP 소켓 열고 클라이언트 연결 대기
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
