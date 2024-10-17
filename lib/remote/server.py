@@ -15,10 +15,11 @@ def handler(socket) :
         try:
             data = socket.recv(1024).decode('utf-8')
             if data is not None :
+                print(data)
                 if data[0] == '1':
                         if data[1] == '1' :
                             result = data.split('-')
-                            pyautogui.moveTo(round(float(result[1])), round(float(result[2])))
+                            # pyautogui.moveTo(round(float(result[1])), round(float(result[2])))
                         if data[1] == '2' :
                             pyautogui.doubleClick()
                         elif data[1] == '3' :
@@ -40,7 +41,10 @@ def handler(socket) :
                             else :
                                 pyautogui.scroll(-1)
                 elif data[0] == '2':
-                    pyautogui.press(chr(int(data[1:])))
+                    if data[1:] == "27" :
+                        pyautogui.press('esc')
+                    else:
+                        pyautogui.press(chr(int(data[1:])))
         except :
             break
 

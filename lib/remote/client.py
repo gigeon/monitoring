@@ -32,7 +32,7 @@ def mouse_handling(event, x, y, flags, param):
     elif event == cv2.EVENT_RBUTTONUP:
         sock.send("17".encode('utf-8'))
     elif event == cv2.EVENT_MOUSEWHEEL:
-        sock.send(("19" + "," + str(flags)).encode('utf-8'))
+        sock.send(("18" + "," + str(flags)).encode('utf-8'))
         
 # 서버에 연결할 IP와 포트
 # TCP_IP = '128.1.1.91'
@@ -71,10 +71,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                     sock.send(("2" + str(key)).encode('utf-8'))
                 
                 # 종료 이벤트 'ESC'
-                if key == 27 :
-                    break
+                # if key == 27 :
+                #     break
                 
-                time.sleep(0.1)
+                time.sleep(0.01)
             else:
                 print("Failed to receive image data.")
                 break
