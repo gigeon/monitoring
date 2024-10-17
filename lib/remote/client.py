@@ -35,8 +35,8 @@ def mouse_handling(event, x, y, flags, param):
         sock.send(("18" + "," + str(flags)).encode('utf-8'))
         
 # 서버에 연결할 IP와 포트
-# TCP_IP = '128.1.1.91'
-TCP_IP = 'localhost'
+TCP_IP = '128.1.1.91'
+# TCP_IP = 'localhost'
 TCP_PORT = 5001
 rag = 0.8
 
@@ -66,7 +66,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 
                 cv2.imshow('CLIENT', decimg)
                 
-                key = cv2.waitKey(1)
+                key = cv2.waitKeyEx(1)
+                print(key)
                 if key > 0 :
                     sock.send(("2" + str(key)).encode('utf-8'))
                 
