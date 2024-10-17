@@ -8,20 +8,38 @@ from threading import Thread
 TCP_IP = '0.0.0.0'
 TCP_PORT = 5001
 
+# data[0] 데이터가 '1'일 경우, 마우스 이벤트
+# data[0] 데이터가 '2'일 경우, 키보드 이벤트
 def handler(socket) :
     while True:
         try:
             data = socket.recv(1024).decode('utf-8')
             if data is not None :
-                if data[0] == '5':
+                if data[0] == '1':
                         if data[1] == '1' :
                             result = data.split('-')
-                            pyautogui.moveTo(int(result[1]),int(result[2]))
+                            pyautogui.moveTo(round(float(result[1])), round(float(result[2])))
                         if data[1] == '2' :
                             pyautogui.doubleClick()
                         elif data[1] == '3' :
-                            pyautogui.rightClick()
-                elif data[0] == '4':
+                            pyautogui.doubleClick(button='right')
+                        elif data[1] == '4' :
+                            result = data.split('-')
+                            pyautogui.drag(round(float(result[1])), round(float(result[2])))
+                        elif data[1] == '5' :
+                            pyautogui.click()
+                        elif data[1] == '6' :
+                            result = data.split('-')
+                            pyautogui.drag(round(float(result[1])), round(float(result[2])), button='right')
+                        elif data[1] == '7' :
+                            pyautogui.click(button='right')
+                        elif data[1] == '8' :
+                            result = data.split(',')
+                            if result[1] > 0 :
+                                pyautogui.scroll(100)
+                            else :
+                                pyautogui.scroll(-100)
+                elif data[0] == '2':
                     pyautogui.press(chr(int(data[1:])))
         except :
             break
