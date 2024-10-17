@@ -67,7 +67,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
                 cv2.imshow('CLIENT', decimg)
                 
                 key = cv2.waitKeyEx(1)
-                print(key)
                 if key > 0 :
                     sock.send(("2" + str(key)).encode('utf-8'))
                 

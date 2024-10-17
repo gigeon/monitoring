@@ -50,6 +50,8 @@ def handler(socket) :
                         pyautogui.press('down')
                     elif data[1:] == "2621440" :
                         pyautogui.press('right')
+                    elif data[1:] == "8" :
+                        pyautogui.press('backspace')
                     else:
                         pyautogui.press(chr(int(data[1:])))
         except :
