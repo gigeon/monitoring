@@ -2,7 +2,7 @@ import socket
 import cv2
 import numpy as np
 
-class remote(object) :
+class Remote(object) :
     def __init__(self,logger) :
         self.logger = logger
         self.sock = None

@@ -1,16 +1,20 @@
-import mariadb
+import pymysql
 
 class Api(object) :
     def __init__(self, logger):
-        self.conn = mariadb.connect(
-            user='root',
-            password='1234',
-            host='localhost',
-            port=3306,
-            database='recycle_monitoring'
-        )
-        self.cur = self.conn.cursor()
-        self.logger = logger
+        try :
+            self.logger = logger
+            self.conn = pymysql.connect(
+                user='root',
+                password='1234',
+                host='localhost',
+                port=3306,
+                database='recycle_monitoring',
+                cursorclass=pymysql.cursors.DictCursor
+            )
+            self.cur = self.conn.cursor()
+        except Exception as e:
+            self.logger.error(f'API Load Error : {e}')
         
     def select(self, query):
         try :

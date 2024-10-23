@@ -1,11 +1,9 @@
-from vncdotool import api
 import logging
-import lib.api as Api
+from lib.api import Api
 from lib.detection import Detection
-import cv2
+from lib.remote import Remote
 
 if __name__ == "__main__" :
-    
     logger = logging.getLogger(name="monitoring")
     logger.setLevel(logging.INFO)
     
@@ -19,9 +17,11 @@ if __name__ == "__main__" :
 
     logger.info("==================Monitoring Start==================")
 
-    # 원격제어 테스트 시 주석처리
     api = Api(logger)
-    
+    remote = Remote(logger)
     device_list = api.select(f'select * from device')
+    
+    for device in device_list :
+        remote.connect(device['ip'],device['port'])
     
     print(device_list)
