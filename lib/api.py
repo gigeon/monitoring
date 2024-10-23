@@ -1,26 +1,53 @@
-import requests
-import logging
-
-logger = logging.getLogger(name="monitoring_log")
+import mariadb
 
 class Api(object) :
     def __init__(self, logger):
-        self.def_url = "localhost:5678"
+        self.conn = mariadb.connect(
+            user='root',
+            password='1234',
+            host='localhost',
+            port=3306,
+            database='recycle_monitoring'
+        )
+        self.cur = self.conn.cursor()
         self.logger = logger
         
-    def api_get(self, url, param):
-        response = requests.get(self.def_url + url, params = param, verify=False)
-        if response.status_code != 200 :
-            logger.error(f' \
-                        status : {response.status_code}, \
-                        message : {response.text} \
-                        ')
+    def select(self, query):
+        try :
+            self.cur.execute(query)
+            result = self.cur.fetchall()
+            self.logger.info('DB Select Success')
+            return result
+        except Exception as e:
+            self.logger.error(f'DB Select Error : {e}')
             return
-        return response.json()
         
-    def api_post(self, url, param):
-        response = requests.post(self.def_url + url, params = param, verify=False)
-        if response.status_code != 200 :
+    def update(self, query):
+        try :
+            self.cur.execute(query)
+            self.conn.commit()
+            self.logger.info('DB Update Success')
             return
-        return response.json()
-    
+        except Exception as e:
+            self.logger.error(f'DB Update Error : {e}')
+            return 
+        
+    def insert(self, query):
+        try :
+            self.cur.execute(query)
+            self.conn.commit()
+            self.logger.info('DB Insert Success')
+            return
+        except Exception as e:
+            self.logger.error(f'DB Insert Error : {e}')
+            return
+        
+    def delete(self, query):
+        try :
+            self.cur.execute(query)
+            self.conn.commit()
+            self.logger.info('DB Delete Success')
+            return
+        except Exception as e:
+            self.logger.error(f'DB Delete Error : {e}')
+            return

@@ -19,17 +19,9 @@ if __name__ == "__main__" :
 
     logger.info("==================Monitoring Start==================")
 
-    # 접속 정보 (DB에서 끌고오는걸로 변경 예정)
-    server_ip = "10.0.2.15"
-    server_port = ""
-    server_pwd = ""
-    db_url = ""
-    
     # 원격제어 테스트 시 주석처리
-    # api = Api(logger)
+    api = Api(logger)
     
-    # result = api.get("/deviceList")
-
-    img = cv2.imread('vision_test.png', cv2.IMREAD_ANYCOLOR)
-    dect = Detection(logger)
-    dect.yn_detection(img)
+    device_list = api.select(f'select * from device')
+    
+    print(device_list)
