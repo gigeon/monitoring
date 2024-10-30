@@ -16,10 +16,20 @@ class Api(object) :
         except Exception as e:
             self.logger.error(f'API Load Error : {e}')
         
-    def select(self, query):
+    def select_all(self, query):
         try :
             self.cur.execute(query)
             result = self.cur.fetchall()
+            self.logger.info('DB Select Success')
+            return result
+        except Exception as e:
+            self.logger.error(f'DB Select Error : {e}')
+            return
+        
+    def select(self, query):
+        try :
+            self.cur.execute(query)
+            result = self.cur.fetchone()
             self.logger.info('DB Select Success')
             return result
         except Exception as e:
