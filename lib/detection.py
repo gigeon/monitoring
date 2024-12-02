@@ -13,7 +13,7 @@ class Detection(object) :
         self.conf = ConfigInfo()
         self.max_check = max_check
         # 환경변수 설정 시 설정 필요x
-        # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+        pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
     def version_ocr(self, img, item: Item):
         try : 
@@ -29,7 +29,7 @@ class Detection(object) :
             )
             item.set_version(ver_str)
         except Exception as e:
-            self.logger.error(f"================== ocr error {item.get_device_id()} ==================")
+            self.logger.error(f"================== version ocr error {item.get_device_id()} ==================")
             self.logger.error(e)
             errorFlag = 1
         finally :
@@ -48,7 +48,7 @@ class Detection(object) :
             item.set_version(net_str)
             
         except Exception as e:
-            self.logger.error(f"================== ocr error {item.get_device_id()}==================")
+            self.logger.error(f"================== net ocr error {item.get_device_id()}==================")
             self.logger.error(e)
             errorFlag = 2
         finally :
@@ -64,13 +64,13 @@ class Detection(object) :
                         (0, 0, 100), (50, 50, 255)
                 )))
                 if s < 2000 and i == 0:
-                    self.item.set_network(1)
+                    item.set_network(1)
                 elif s < 2000 and i == 1:
-                    self.item.set_indicator(1)
+                    item.set_indicator(1)
                 elif s < 2000 and i == 2:
-                    self.item.set_qr(1)
+                    item.set_qr(1)
         except Exception as e:
-            self.logger.error(f"================== ocr error {item.get_device_id()}==================")
+            self.logger.error(f"================== detection error {item.get_device_id()}==================")
             self.logger.error(e)
             errorFlag = 3
         finally :

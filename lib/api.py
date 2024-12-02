@@ -23,7 +23,7 @@ class Api(object) :
             self.logger.info('DB Select Success')
             return result
         except Exception as e:
-            self.logger.error(f'DB Select Error : {e}')
+            self.logger.error(f'DB Select Error : {e} \n {query}')
             return
         
     def select(self, query):
@@ -33,7 +33,7 @@ class Api(object) :
             self.logger.info('DB Select Success')
             return result
         except Exception as e:
-            self.logger.error(f'DB Select Error : {e}')
+            self.logger.error(f'DB Select Error : {e} \n {query}')
             return
         
     def update(self, query):
@@ -43,7 +43,7 @@ class Api(object) :
             self.logger.info('DB Update Success')
             return
         except Exception as e:
-            self.logger.error(f'DB Update Error : {e}')
+            self.logger.error(f'DB Update Error : {e} \n {query}')
             return 
         
     def insert(self, query):
@@ -53,7 +53,7 @@ class Api(object) :
             self.logger.info('DB Insert Success')
             return
         except Exception as e:
-            self.logger.error(f'DB Insert Error : {e}')
+            self.logger.error(f'DB Insert Error : {e} \n {query}')
             return
         
     def delete(self, query):
@@ -63,5 +63,5 @@ class Api(object) :
             self.logger.info('DB Delete Success')
             return
         except Exception as e:
-            self.logger.error(f'DB Delete Error : {e}')
+            self.logger.error(f'DB Delete Error : {e} \n {query}')
             return

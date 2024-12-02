@@ -40,16 +40,16 @@ if __name__ == "__main__" :
     
     device_list = api.select_all(f'select * from device')
     
-    # api.insert(f"""
-    #     INSERT INTO `CHECK` VALUES(
-    #         NEXTVAL(CHECK_SEQ),
-    #         '{today.month}',
-    #         '{week}',
-    #         '{today.isoformat()}',
-    #         'admin',
-    #         '{today.isoformat()}',
-    #         'admin'
-    # )""")
+    api.insert(f"""
+        INSERT INTO `CHECK` VALUES(
+            NEXTVAL(CHECK_SEQ),
+            '{today.month}',
+            '{week}',
+            '{today.isoformat()}',
+            'admin',
+            '{today.isoformat()}',
+            'admin'
+    )""")
     
     for device in device_list :
         try :
@@ -57,10 +57,9 @@ if __name__ == "__main__" :
             item.set_device_id(device['device_id'])
             power_yn = '0'
             img = remote.connect(device['ip'],int(device['port']), max_check_dtl)
-            print("111")
             if img is not None : 
                 power_yn = '1'
-                detection.ocr(img, item)
+                detection.version_ocr(img, item)
                 item_list.append(item)
             else :
                 api.insert(f"""
@@ -77,11 +76,7 @@ if __name__ == "__main__" :
                         'admin'
                     )
                 """)
-                
-            detection.version_ocr(img, item)
-            
-            print(item)
-                
+
             api.insert(f"""
                 INSERT INTO
                     CHECK_DTL
